@@ -6,7 +6,8 @@ import java.io.FileWriter;
 public class Tarea2 {
     public static void main(String[] args) {
         //ejercicio1Secuencial();
-        ejercicio1Concurrente();
+        //ejercicio1Concurrente();
+        ejercicio2();
     }
 
     public static void ejercicio1Secuencial() {
@@ -155,5 +156,48 @@ public class Tarea2 {
 
         total = hA.getResultado() + hE.getResultado() + hI.getResultado() + hO.getResultado() + hU.getResultado();
         System.out.println("Total: " + total);
+    }
+
+    public static void ejercicio2() {
+        /*
+        Crea un programa en Java que simule el problema Productor–Consumidor,
+        pero con un buffer de tamaño limitado (por ejemplo, 3 posiciones):
+            - El Productor debe ir generando números y guardarlos en el buffer.
+            - El Consumidor debe ir sacando esos números del buffer y mostrándolos
+              por pantalla.
+            - Si el buffer está lleno, el Productor debe esperar hasta que el
+              Consumidor libere espacio.
+            - Si el buffer está vacío, el Consumidor debe esperar hasta que el
+              Productor produzca algo.
+            - Usa wait() y notifyAll() para coordinar la comunicación entre hilos.
+
+            Inicialmente hacer el ejercicio con 1 productor y 1 consumidor.
+            Posteriormente, ampliar a 2 y 2.
+         */
+
+        // Hacemos que el buffer tenga una capacidad maxima de 3 numeros
+        int capacidadBuffer = 3;
+        Recurso buffer = new Recurso(capacidadBuffer);
+
+        System.out.println(" == INICIAMOS EL BUFFER ==");
+        System.out.println("Capacidad actual: " + capacidadBuffer);
+
+        // Vamos a inicializar las clases productor y consumidor, es decir, crear los hilos
+
+        Thread productor = new Thread(new Productor(buffer), "Productor");
+        Thread consumidor = new Thread(new Consumidor(buffer), "Consumidor");
+
+        // Ahora los iniciamos
+        productor.start();
+        consumidor.start();
+
+        try {
+            productor.join();
+            consumidor.join();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        
     }
 }
