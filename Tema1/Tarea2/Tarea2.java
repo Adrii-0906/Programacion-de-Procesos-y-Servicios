@@ -11,8 +11,12 @@ public class Tarea2 {
     }
 
     public static void ejercicio1Secuencial() {
+
+        // Hacemos una lista donde metemos las vocales que queremos contar del texto
         String[] vocales = {"a", "e", "i", "o", "u"};
 
+
+        // Hacemos una lista con los nombres de los ficheros que vamos a crear al ejecutar el programa
         String[] ficheros = {
             "ficheroA.txt",
             "ficheroE.txt",
@@ -21,9 +25,11 @@ public class Tarea2 {
             "ficheroU.txt"
         };
 
+        // Hacemos un contador para hacer de las vocales que aparecen
         int[] contadorVocales = {0, 0, 0, 0, 0};
 
         try {
+            // Leemos el fichero entrada.txt
             BufferedReader br = new BufferedReader(new FileReader("entrada.txt"));
 
             String linea;
@@ -31,9 +37,11 @@ public class Tarea2 {
             while ((linea = br.readLine()) != null) {
                 String[] lineasSep = linea.split("\\s");
 
+                // Aqui separamos las lineas para leerlas y contar los caracteres
                 for (int i = 0; i < lineasSep.length; i++) {
                     char[] palabraSep = lineasSep[i].toCharArray();
 
+                    // Aqui en el segundo bucle ya vamos lleyendo caracter por caractes y los vamos anadiendo a las listas de caracteres
                     for (int j = 0; j < palabraSep.length; j++) {
                         if (comprobarA(Character.toLowerCase(palabraSep[j]))) {
                             contadorVocales[0]++;
@@ -52,7 +60,7 @@ public class Tarea2 {
 
             br.close();
 
-
+            // Ahora escribimos en los ficheros cunatas vocales hay en el fichero entrada
             for (int i = 0; i < ficheros.length; i++) {
                 BufferedWriter bw = new BufferedWriter(new FileWriter(ficheros[i]));
 
@@ -66,11 +74,15 @@ public class Tarea2 {
 
             int sumaTotal = 0;
 
+            // Ahora vamos lleyendo los ficheros
             for (int i = 0; i < ficheros.length; i++) {
                 br = new BufferedReader(new FileReader(ficheros[i]));
+
+                // Aqui le decimos que cuando llegue a los ":" lea la cifra
                 while ((linea = br.readLine()) != null) {
                     String[] lineaSep = linea.split(":");
 
+                    // Lo pasamos a valor entero y hacemos la suma
                     contadoresFicheros[i] = Integer.parseInt(lineaSep[1].trim());
 
                     sumaTotal += contadoresFicheros[i];
@@ -88,6 +100,8 @@ public class Tarea2 {
             e.printStackTrace();
         }
     }
+
+    // Aqui hacemos unos metodos para poder comprobar cada vocal
 
     private static boolean comprobarA(char lineaSep) {
         return lineaSep == 'a' || lineaSep == 'á' || lineaSep == 'ä';
@@ -120,21 +134,25 @@ public class Tarea2 {
         todos los subtotales y mostrar el resultado final en pantalla.
          */
 
+        // Indicamos el fichero que queremos leer
+
         String entrada = "entrada.txt";
 
+        // Inicializamos los hilos y le indicamos la vocal y el fichero que queremos que lea
         Hilos hA = new Hilos('a', entrada);
         Hilos hE = new Hilos('e', entrada);
         Hilos hI = new Hilos('i', entrada);
         Hilos hO = new Hilos('o', entrada);
         Hilos hU = new Hilos('u', entrada);
 
-
+        // Iniciamos los hilos
         hA.start();
         hE.start();
         hI.start();
         hO.start();
         hU.start();
 
+        // Aqui inidicamos que hasta que uno no acabe no empiece el otro
         try {
             hA.join();
             hE.join();
@@ -146,6 +164,7 @@ public class Tarea2 {
         }
 
 
+        // Aqui creamos un contandor donde sumamos todos los hilos para ver el total de vocales
         int total = 0;
 
         System.out.println("vocal A: " + hA.getResultado());
