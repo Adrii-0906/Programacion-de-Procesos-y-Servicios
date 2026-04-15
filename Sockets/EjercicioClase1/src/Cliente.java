@@ -6,7 +6,7 @@ public class Cliente {
         System.out.println("Cliente conectado");
 
         try (
-                Socket socket = new Socket("localhost", 1234);
+                Socket socket = new Socket("192.168.14.16", 1234);
                 PrintWriter out = new PrintWriter(
                 socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(
