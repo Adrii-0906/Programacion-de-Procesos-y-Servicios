@@ -8,7 +8,7 @@ public class Cliente {
     public static void main(String[] args) {
 
         // IP configurable: si se pasa como argumento se usa, si no, localhost
-        String ip = "192.168.0.25";
+        String ip = "localhost";
         if (args.length > 0) {
             ip = args[0];
         }
